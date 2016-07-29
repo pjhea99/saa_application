@@ -33,6 +33,7 @@ import com.grotesque.saa.common.widget.YoutubeThumbnailView;
 import com.grotesque.saa.content.data.CommentList;
 import com.grotesque.saa.content.data.ContentItem;
 import com.grotesque.saa.util.FontManager;
+import com.grotesque.saa.util.NavigationUtils;
 import com.grotesque.saa.util.ParseUtils;
 import com.grotesque.saa.util.StringUtils;
 import com.grotesque.saa.util.WebViewUtils;
@@ -253,7 +254,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
                         holder.mContentLayout.addView(childView1);
 
-                        String imgUrl = StringUtils.convertImgUrl(s.getImg());
+                        final String imgUrl = StringUtils.convertImgUrl(s.getImg());
                         Uri uri = Uri.parse(imgUrl);
                         ImageRequestBuilder imageRequestBuilder =
                                 ImageRequestBuilder.newBuilderWithSource(uri);
@@ -269,6 +270,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                                 .setTapToRetryEnabled(true)
                                 .build();
                         imageview.setController(draweeController);
+                        imageview.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                NavigationUtils.goImageViewActivity(mContext, imgUrl, 1);
+                            }
+                        });
                         break;
                     case "video":
                         LinearLayout childView2 = (LinearLayout) mLayoutInflater.inflate(R.layout.layout_comment_video, null);
